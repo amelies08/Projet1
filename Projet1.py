@@ -19,9 +19,11 @@ with open('Test.md', 'r') as markdownFile:
         else:
             modifiedLines.append(line)
 
-with open('Test.md', 'w') as markdownFile:
+with open('TestMD.md', 'w') as markdownFile:
     markdownFile.write("".join(modifiedLines))
 
-with open('Test.md', 'r') as fin:
+with open('TestMD.md', 'r') as fin:
     rendered = mistletoe.markdown(fin)
-    print(rendered)
+
+with open('TestHTML.html', 'w') as htmlFile:
+    htmlFile.write(rendered)
