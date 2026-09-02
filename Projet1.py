@@ -25,5 +25,5 @@ with open('TestMD.md', 'w') as markdownFile:
 with open('TestMD.md', 'r') as fin:
     rendered = mistletoe.markdown(fin)
 
-with open('TestHTML.html', 'w') as htmlFile:
+with open('Test.html', 'w') as htmlFile:
     htmlFile.write(rendered)
