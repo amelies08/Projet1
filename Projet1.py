@@ -15,14 +15,16 @@ def checklistMD(fileName):
         for line in readFile:
             modifiedLine = [] # Empty list to put the characters of the line
             if line.find('/') != -1: # If the character "/" is found in the line
+                counter = 0
                 for letter in line:
                     modifiedLine.append(letter) # The character is added to modifiedLine
+                if modifiedLine[0] == "/":
                     modifiedLine[0] = '<input type="checkbox"> <label>' # A checkbox is added at the beginning of the line
-                if line.find('\n') != 0: # If there is an enter at the end of the line
-                    modifiedLine[-1] = ('</label><br>') # Replace it to indicate the end of the text of the checkbox
-                else: # If there is no enter at the end of the line
-                    modifiedLine.append('</label><br>') # Add the indicator for the end of the checkbox's text
-                modifiedLine.append('\n') # Add an enter at the end of the line
+                    if line.find('\n') != 0: # If there is an enter at the end of the line
+                        modifiedLine[-1] = ('</label><br>') # Replace it to indicate the end of the text of the checkbox
+                    else: # If there is no enter at the end of the line
+                        modifiedLine.append('</label><br>') # Add the indicator for the end of the checkbox's text
+                    modifiedLine.append('\n') # Add an enter at the end of the line
                 modifiedLines.append("".join(modifiedLine)) # Join all the character in modifiedLine in one string and add it to modifiedLines
             else: # If the character "/" isn't found
                 modifiedLines.append(line) # Add the full line to modifiedLines
