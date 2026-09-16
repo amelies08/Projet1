@@ -30,30 +30,29 @@ def convertir_diapositive(fichier_md, fichier_html):
 
     # Convertir chaque slide en HTML
     for slide in slides:
-        rendu = mistletoe.markdown(slide)
-
         # Place le contenu HTML dans une div ayant la classe "slide"
-        slide_html = '<div class="slide">' + rendu + '</div>'
+        slide = '<div class="slide">' + rendu + '</div>'
 
         # Ajoute la diapositive au résultat final
-        resultat += slide_html
+        resultat += slide
 
-    # Écrire le résultat dans le fichier HTML
-    with open(fichier_html, 'w', encoding='utf-8') as fout:
-        # Écrit le CSS et toutes les diapositives dans le fichier HTML
-        fout.write(css + resultat)
+    with open(fichier_md, 'w', encoding='utf-8') as fichier:
+        
+
+    return resultat, fichier_html
 
 
-def checklistMD(fileName):
+def checklistMD(fileName_md, fileName_html):
     """ This function changes the symbol / of a markdown file into a checkbox.
     
     Args: 
-        fileName (str): name of the markdown file that contains the checklist (without the .md)
+        fileName_md (str): name of the markdown file that contains the checklist
+        fileName_html (str): name of the html file to put the modified text
     """
 
     modifiedLines = [] # Empty list to put the lines of the file read
 
-    with open(fileName + '.md', 'r') as markdownFile: # Open the file to read it
+    with open(fileName_md, 'r') as markdownFile: # Open the file to read it
         readFile = markdownFile.readlines() # Read the file line by line
         for line in readFile:
             modifiedLine = [] # Empty list to put the characters of the line
@@ -72,17 +71,20 @@ def checklistMD(fileName):
             else: # If the character "/" isn't found
                 modifiedLines.append(line) # Add the full line to modifiedLines
 
-    with open(fileName + 'MD.md', 'w') as markdownFile: # Open a new markdown file to write in it
-        markdownFile.write("".join(modifiedLines)) # Insert all the lines in modifiedLines in the file
+    modifiedText = "".join(modifiedLines) # Join all the lines from modifiedLines into one string
 
-    with open(fileName + 'MD.md', 'r') as fin: # Open the new markdown file to read it
-        rendered = mistletoe.markdown(fin) # Use mistletoe to change the markdown file into a html string
+    return modifiedText, fileName_html
 
-    with open(fileName + '.html', 'w') as htmlFile: # Open a new html file to write in it
-        htmlFile.write(rendered) # Put the html string into a html file
 
 # Appelle la fonction avec le fichier Markdown en entrée
 # et le fichier HTML qui sera créé en sortie
-convertir_diapositive("TEST1.md", "TESTHTML.html")
+outputFile, fichier_html = convertir_diapositive("TEST1.md", "TESTHTML.html")
 
-checklistMD("Test") # Exemple of the call of the function
+outputFile, fichier_html = checklistMD(outputFile, fichier_html) # Exemple of the call of the function
+
+rendered = mistletoe.markdown(outputFile) # Use mistletoe to change the markdown file into a html string
+
+# Écrire le résultat dans le fichier HTML
+with open(fichier_html, 'w', encoding='utf-8') as fout:
+    # Écrit le CSS et toutes les diapositives dans le fichier HTML
+    fout.write(rendered)
