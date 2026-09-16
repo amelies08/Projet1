@@ -31,23 +31,22 @@ def convertir_diapositive(fichier_md, fichier_html):
     # Convertir chaque slide en HTML
     for slide in slides:
         # Place le contenu HTML dans une div ayant la classe "slide"
-        slide = '<div class="slide">' + rendu + '</div>'
+        slide = '<div class="slide">' + slide + '</div>'
 
         # Ajoute la diapositive au résultat final
         resultat += slide
 
-    with open(fichier_md, 'w', encoding='utf-8') as fichier:
-        
+    with open(fichier_html, 'w') as fichier:
+        fichier.write(resultat)
 
-    return resultat, fichier_html
+    return fichier_html
 
 
-def checklistMD(fileName_md, fileName_html):
+def checklistMD(fileName_md):
     """ This function changes the symbol / of a markdown file into a checkbox.
     
     Args: 
         fileName_md (str): name of the markdown file that contains the checklist
-        fileName_html (str): name of the html file to put the modified text
     """
 
     modifiedLines = [] # Empty list to put the lines of the file read
@@ -73,18 +72,21 @@ def checklistMD(fileName_md, fileName_html):
 
     modifiedText = "".join(modifiedLines) # Join all the lines from modifiedLines into one string
 
-    return modifiedText, fileName_html
+    with open(fileName_md, 'w') as file:
+        file.write(modifiedText)
+
+    return fileName_md
 
 
 # Appelle la fonction avec le fichier Markdown en entrée
 # et le fichier HTML qui sera créé en sortie
-outputFile, fichier_html = convertir_diapositive("TEST1.md", "TESTHTML.html")
+file_html = convertir_diapositive("Test.md", "TEST.html")
 
-outputFile, fichier_html = checklistMD(outputFile, fichier_html) # Exemple of the call of the function
+file_html = checklistMD(file_html) # Exemple of the call of the function
 
-rendered = mistletoe.markdown(outputFile) # Use mistletoe to change the markdown file into a html string
+rendered = mistletoe.markdown(file_html) # Use mistletoe to change the markdown file into a html string
 
 # Écrire le résultat dans le fichier HTML
-with open(fichier_html, 'w', encoding='utf-8') as fout:
+with open(file_html, 'w', encoding='utf-8') as fout:
     # Écrit le CSS et toutes les diapositives dans le fichier HTML
     fout.write(rendered)
