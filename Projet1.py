@@ -1,7 +1,5 @@
 import mistletoe
 
-import mistletoe
-
 
 def convertir_diapositive(fichier_md, fichier_html):
     """
@@ -44,6 +42,7 @@ def convertir_diapositive(fichier_md, fichier_html):
     with open(fichier_html, 'w', encoding='utf-8') as fout:
         # Écrit le CSS et toutes les diapositives dans le fichier HTML
         fout.write(css + resultat)
+
 
 def checklistMD(fileName):
     """ This function changes the symbol / of a markdown file into a checkbox.
